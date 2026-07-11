@@ -847,9 +847,9 @@ export default function App() {
   function drawCrosshair(ctx: CanvasRenderingContext2D, x: number) {
     ctx.save();
 
-    const col = "rgba(180,255,200,0.6)";
-    const colDim = "rgba(180,255,200,0.25)";
-    const colBright = "rgba(180,255,200,0.85)";
+    const col = "rgba(150,200,170,0.2)";
+    const colDim = "rgba(150,200,170,0.12)";
+    const colBright = "rgba(150,200,170,0.35)";
 
     // ===== ГОРИЗОНТАЛЬНА ЛІНІЯ (по горизонту) =====
     ctx.strokeStyle = colBright;
