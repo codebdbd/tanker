@@ -1031,8 +1031,16 @@ export default function App() {
           </div>
         </div>
 
-        <p className="hidden md:block text-center text-slate-400/60 text-xs mt-4 tracking-wider">
-          © репліка легендарного автомата «Морський бій» · зроблено у браузері
+        <p className="hidden md:block text-center text-slate-400/80 text-xs mt-4 tracking-wider">
+          Збір на прикормку для риб —{" "}
+          <a
+            href="https://send.monobank.ua/jar/5aegPYNAHi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-300 underline underline-offset-2 hover:text-white transition-colors"
+          >
+            Зробити внесок
+          </a>
         </p>
       </div>
     </div>
