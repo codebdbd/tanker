@@ -846,43 +846,103 @@ export default function App() {
 
   function drawCrosshair(ctx: CanvasRenderingContext2D, x: number) {
     ctx.save();
-    // вертикальная линия через весь экран (визирная линия перископа)
-    ctx.strokeStyle = "rgba(180,255,200,0.25)";
+
+    const col = "rgba(180,255,200,0.6)";
+    const colDim = "rgba(180,255,200,0.25)";
+    const colBright = "rgba(180,255,200,0.85)";
+
+    // ===== ГОРИЗОНТАЛЬНА ЛІНІЯ (по горизонту) =====
+    ctx.strokeStyle = colBright;
     ctx.lineWidth = 1;
-    ctx.setLineDash([6, 6]);
+    ctx.beginPath();
+    ctx.moveTo(20, HORIZON_Y);
+    ctx.lineTo(VIEW_W - 20, HORIZON_Y);
+    ctx.stroke();
+
+    // Ділення на горизонтальній лінії (кожні 25px)
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 0.8;
+    for (let i = -12; i <= 12; i++) {
+      if (i === 0) continue;
+      const tx = x + i * 25;
+      if (tx < 25 || tx > VIEW_W - 25) continue;
+      const isMajor = Math.abs(i) % 2 === 0;
+      const tickH = isMajor ? 6 : 3;
+      ctx.beginPath();
+      ctx.moveTo(tx, HORIZON_Y - tickH);
+      ctx.lineTo(tx, HORIZON_Y + tickH);
+      ctx.stroke();
+    }
+
+    // Цифри "10" зліва і справа від прицілу
+    ctx.fillStyle = colDim;
+    ctx.font = "9px 'Share Tech Mono',monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    if (x - 50 > 30) ctx.fillText("10", x - 50, HORIZON_Y - 10);
+    if (x + 50 < VIEW_W - 30) ctx.fillText("10", x + 50, HORIZON_Y - 10);
+
+    // ===== ВЕРТИКАЛЬНА ЛІНІЯ (через екран) =====
+    ctx.strokeStyle = colDim;
+    ctx.lineWidth = 0.7;
+    ctx.setLineDash([4, 4]);
     ctx.beginPath();
     ctx.moveTo(x, 20);
     ctx.lineTo(x, VIEW_H - 20);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // «крест» прицела на горизонте
-    ctx.strokeStyle = "rgba(180,255,200,0.85)";
-    ctx.lineWidth = 1.5;
+    // ===== КРЕСТ ПРИЦІЛА =====
+    ctx.strokeStyle = colBright;
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.moveTo(x, HORIZON_Y - 45);
-    ctx.lineTo(x, HORIZON_Y + 45);
-    ctx.moveTo(x - 40, HORIZON_Y);
-    ctx.lineTo(x + 40, HORIZON_Y);
+    ctx.moveTo(x, HORIZON_Y - 35);
+    ctx.lineTo(x, HORIZON_Y + 35);
+    ctx.moveTo(x - 30, HORIZON_Y);
+    ctx.lineTo(x + 30, HORIZON_Y);
     ctx.stroke();
 
-    // окружность
-    ctx.strokeStyle = "rgba(180,255,200,0.8)";
+    // Окружність прицілу
+    ctx.strokeStyle = colBright;
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.arc(x, HORIZON_Y, 14, 0, Math.PI * 2);
+    ctx.arc(x, HORIZON_Y, 12, 0, Math.PI * 2);
     ctx.stroke();
 
-    // маленькие деления по бокам
-    ctx.strokeStyle = "rgba(180,255,200,0.5)";
-    for (let i = 1; i <= 3; i++) {
-      const d = i * 25;
+    // ===== ДІЛЕННЯ ПО КРАЯХ ЕКРАНА (як на справжньому перископі) =====
+    ctx.strokeStyle = colDim;
+    ctx.lineWidth = 0.6;
+    // Лівий край
+    for (let i = 0; i < 20; i++) {
+      const ty = 30 + i * ((VIEW_H - 60) / 19);
+      const isMajor = i % 5 === 0;
+      const tickW = isMajor ? 8 : 4;
       ctx.beginPath();
-      ctx.moveTo(x - d, HORIZON_Y - 5);
-      ctx.lineTo(x - d, HORIZON_Y + 5);
-      ctx.moveTo(x + d, HORIZON_Y - 5);
-      ctx.lineTo(x + d, HORIZON_Y + 5);
+      ctx.moveTo(8, ty);
+      ctx.lineTo(8 + tickW, ty);
       ctx.stroke();
     }
+    // Правий край
+    for (let i = 0; i < 20; i++) {
+      const ty = 30 + i * ((VIEW_H - 60) / 19);
+      const isMajor = i % 5 === 0;
+      const tickW = isMajor ? 8 : 4;
+      ctx.beginPath();
+      ctx.moveTo(VIEW_W - 8, ty);
+      ctx.lineTo(VIEW_W - 8 - tickW, ty);
+      ctx.stroke();
+    }
+
+    // Цифра "10" зліва і справа на вертикалі
+    ctx.fillStyle = colDim;
+    ctx.font = "8px 'Share Tech Mono',monospace";
+    ctx.textAlign = "left";
+    ctx.fillText("10", 18, HORIZON_Y - 40);
+    ctx.fillText("10", 18, HORIZON_Y + 44);
+    ctx.textAlign = "right";
+    ctx.fillText("10", VIEW_W - 18, HORIZON_Y - 40);
+    ctx.fillText("10", VIEW_W - 18, HORIZON_Y + 44);
+
     ctx.restore();
   }
 
