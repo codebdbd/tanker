@@ -864,24 +864,25 @@ export default function App() {
   // ИНТЕРФЕЙС
   // ==========================================================
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#1a1e22] to-[#050708] text-slate-200 flex flex-col items-center justify-center p-4 select-none">
+    <div className="min-h-screen w-full bg-gradient-to-b from-[#1a1e22] to-[#050708] text-slate-200 flex flex-col items-center justify-center p-0 md:p-4 select-none">
       <div className="w-full max-w-5xl">
         <div
-          className="relative rounded-[36px] p-4 md:p-10 shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
+          className="relative rounded-none md:rounded-[36px] p-0 md:p-10 shadow-none md:shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
           style={{
             background:
               "linear-gradient(180deg,#c8ced4 0%,#8a9098 25%,#5a6068 55%,#3a4046 80%,#2a2e34 100%)",
-            border: "3px solid #1a1e22",
+            border: "0 solid #1a1e22",
             boxShadow:
               "inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -4px 10px rgba(0,0,0,0.5), 0 25px 80px rgba(0,0,0,0.8)",
           }}
         >
           <div
-            className="absolute inset-3 rounded-[30px] pointer-events-none"
+            className="absolute inset-0 md:inset-3 rounded-none md:rounded-[30px] pointer-events-none"
             style={{ boxShadow: "inset 0 0 0 2px rgba(0,0,0,0.4)" }}
           />
 
-          <div className="text-center mb-4">
+          <div className="p-4 md:p-0">
+            <div className="text-center mb-4">
             <h1
               className="inline-block px-4 md:px-6 py-2 rounded-md text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] font-black"
               style={{
@@ -911,11 +912,10 @@ export default function App() {
 
           <div className="relative mx-auto">
             <div
-              className="relative mx-auto rounded-[210px] overflow-hidden"
+              className="relative mx-auto rounded-none md:rounded-[210px] overflow-hidden md:shadow-[0_0_0_8px_#0a0d10,0_0_0_12px_#2a2e34]"
               style={{
                 background: "#000",
-                boxShadow:
-                  "0 0 0 8px #0a0d10, 0 0 0 12px #2a2e34, 0 0 45px rgba(0,0,0,0.9) inset",
+                boxShadow: "0 0 45px rgba(0,0,0,0.9) inset",
               }}
             >
               <canvas
@@ -981,7 +981,7 @@ export default function App() {
               >
                 СКИДАННЯ
               </button>
-              <div className="text-slate-900 text-[10px] md:text-xs font-semibold normal-case tracking-normal">
+              <div className="hidden md:block text-slate-900 text-[10px] md:text-xs font-semibold normal-case tracking-normal">
                 <span className="text-black font-bold">←→</span> рух прицілу ·{" "}
                 <span className="text-black font-bold">Пробіл</span> вогонь ·{" "}
                 <span className="text-black font-bold">R</span> перезапуск
@@ -1033,9 +1033,10 @@ export default function App() {
               </button>
             </div>
           </div>
+          </div>
         </div>
 
-        <p className="text-center text-slate-400/60 text-xs mt-4 tracking-wider">
+        <p className="hidden md:block text-center text-slate-400/60 text-xs mt-4 tracking-wider">
           © репліка легендарного автомата «Морський бій» · зроблено у браузері
         </p>
       </div>
