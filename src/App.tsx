@@ -882,19 +882,26 @@ export default function App() {
           />
 
           <div className="p-2 md:p-0">
-          <div className="flex items-center justify-between gap-2 mb-2 px-2">
+          <div className="flex items-center justify-between gap-2 px-2">
             <Scoreboard label="ВЛУЧАННЯ" value={score} color="#ff5a2a" />
-            <h1
-              className="text-center text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] shrink-0"
-              style={{
-                color: "#1a1e22",
-                textShadow:
-                  "0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.4)",
-                fontFamily: "'Russo One',sans-serif",
-              }}
-            >
-              РОСІЙСЬКИЙ ТАНКЕР, ІДІ НА...!
-            </h1>
+            <div className="text-center shrink-0">
+              <h1
+                className="text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em]"
+                style={{
+                  color: "#1a1e22",
+                  textShadow:
+                    "0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.4)",
+                  fontFamily: "'Russo One',sans-serif",
+                }}
+              >
+                РОСІЙСЬКИЙ ТАНКЕР, ІДІ НА...!
+              </h1>
+              <div className="hidden md:block text-slate-700 text-[10px] tracking-wider mt-0.5">
+                <span className="font-bold">←→</span> рух ·{" "}
+                <span className="font-bold">Пробіл</span> вогонь ·{" "}
+                <span className="font-bold">R</span> скидання
+              </div>
+            </div>
             <Scoreboard label="ТОРПЕДИ" value={shots} color="#2affaa" />
           </div>
 
@@ -971,11 +978,6 @@ export default function App() {
               >
                 СКИДАННЯ
               </button>
-              <div className="hidden md:block text-slate-900 text-[10px] md:text-xs font-semibold normal-case tracking-normal">
-                <span className="text-black font-bold">←→</span> рух прицілу ·{" "}
-                <span className="text-black font-bold">Пробіл</span> вогонь ·{" "}
-                <span className="text-black font-bold">R</span> перезапуск
-              </div>
             </div>
 
             <div className="flex items-center justify-between w-full md:w-auto gap-3">
