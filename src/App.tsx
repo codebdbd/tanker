@@ -794,44 +794,64 @@ export default function App() {
     const endX = aim * VIEW_W;
     const endY = HORIZON_Y + 4;
 
-    // Поточна позиція голови торпеди
+    // Поточна позиція голови
     const headX = startX + (endX - startX) * p;
     const headY = startY + (endY - startY) * p;
 
-    // Довжина корпусу торпеди (сегмент)
-    const torpedoLen = 30;
     const angle = Math.atan2(headY - startY, headX - startX);
-    const tailX = headX - Math.cos(angle) * torpedoLen;
-    const tailY = headY - Math.sin(angle) * torpedoLen;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
 
     ctx.save();
 
-    // Свічення навколо
-    ctx.shadowColor = "rgba(80,255,120,0.7)";
-    ctx.shadowBlur = 12;
+    // Свічення
+    ctx.shadowColor = "rgba(100,255,150,0.8)";
+    ctx.shadowBlur = 15;
 
-    // Корпус торпеди (товста лінія)
-    ctx.strokeStyle = "rgba(100,255,140,0.6)";
-    ctx.lineWidth = 5;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(tailX, tailY);
-    ctx.lineTo(headX, headY);
-    ctx.stroke();
+    // Торпеда з перспективою: товста біля основи, тонша біля голови
+    // Малюємо сегментами від хвоста до голови
+    const segments = 20;
+    const tailLen = 60; // загальна довжина
+    for (let i = 0; i < segments; i++) {
+      const t1 = i / segments;
+      const t2 = (i + 1) / segments;
 
-    // Яскравіша серцевина
-    ctx.strokeStyle = "#a8ffb0";
+      // Позиції початку і кінця сегменту
+      const sx = headX - cos * tailLen * t1;
+      const sy = headY - sin * tailLen * t1;
+      const ex = headX - cos * tailLen * t2;
+      const ey = headY - sin * tailLen * t2;
+
+      // Товщина: від 8px біля хвоста до 2px біля голови
+      const w1 = 8 - t1 * 6;
+      const w2 = 8 - t2 * 6;
+
+      // Яскравість: яскравіша біля голови
+      const alpha = 0.3 + t1 * 0.5;
+
+      ctx.strokeStyle = `rgba(100,255,150,${alpha})`;
+      ctx.lineWidth = (w1 + w2) / 2;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+    }
+
+    // Яскрава серцевина
+    ctx.shadowBlur = 20;
+    ctx.strokeStyle = "#b0ffc8";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(tailX, tailY);
+    ctx.moveTo(headX - cos * 40, headY - sin * 40);
     ctx.lineTo(headX, headY);
     ctx.stroke();
 
-    // Голова торпеди (яскрава крапка)
-    ctx.shadowBlur = 18;
+    // Голова торпеди
     ctx.fillStyle = "#e6ffe6";
+    ctx.shadowBlur = 25;
     ctx.beginPath();
-    ctx.arc(headX, headY, 4, 0, Math.PI * 2);
+    ctx.arc(headX, headY, 5, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();
