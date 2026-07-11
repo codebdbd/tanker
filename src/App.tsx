@@ -868,34 +868,33 @@ export default function App() {
 
     // ===== ШКАЛА ЗЛІВА (вертикальна, з цифрами 50, 100) =====
     const scaleY = VIEW_H / 2;
-    const scaleLeftX = 35;
+    const scaleLeftX = 55;
     const vTickSpacing = 22;
 
     // Основна вертикальна лінія
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = colBright;
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(scaleLeftX, scaleY - 110);
     ctx.lineTo(scaleLeftX, scaleY + 110);
     ctx.stroke();
 
     // Поділки вгору (від центру)
-    ctx.lineWidth = 0.7;
+    ctx.lineWidth = 0.8;
     for (let i = 1; i <= 5; i++) {
       const ty = scaleY - i * vTickSpacing;
       const isMajor = i % 2 === 0;
-      const tickW = isMajor ? 12 : 6;
+      const tickW = isMajor ? 14 : 7;
       ctx.beginPath();
       ctx.moveTo(scaleLeftX, ty);
       ctx.lineTo(scaleLeftX + tickW, ty);
       ctx.stroke();
-      // Цифри біля довгих поділок
       if (isMajor) {
-        ctx.fillStyle = col;
-        ctx.font = "8px 'Share Tech Mono',monospace";
+        ctx.fillStyle = colBright;
+        ctx.font = "9px 'Share Tech Mono',monospace";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(String(i * 25), scaleLeftX + tickW + 3, ty);
+        ctx.fillText(String(i * 25), scaleLeftX + tickW + 4, ty);
       }
     }
 
@@ -903,49 +902,49 @@ export default function App() {
     for (let i = 1; i <= 5; i++) {
       const ty = scaleY + i * vTickSpacing;
       const isMajor = i % 2 === 0;
-      const tickW = isMajor ? 12 : 6;
+      const tickW = isMajor ? 14 : 7;
       ctx.beginPath();
       ctx.moveTo(scaleLeftX, ty);
       ctx.lineTo(scaleLeftX + tickW, ty);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = col;
-        ctx.font = "8px 'Share Tech Mono',monospace";
+        ctx.fillStyle = colBright;
+        ctx.font = "9px 'Share Tech Mono',monospace";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(String(i * 25), scaleLeftX + tickW + 3, ty);
+        ctx.fillText(String(i * 25), scaleLeftX + tickW + 4, ty);
       }
     }
 
-    // ===== ШКАЛА ЗНИЗУ (горизонтальна, з градусами) =====
+    // ===== ШКАЛА ЗВЕРХУ (горизонтальна, з градусами) =====
     const scaleX = VIEW_W / 2;
-    const scaleBottomY = VIEW_H - 30;
+    const scaleTopY = 35;
     const hTickSpacing = 20;
 
     // Основна горизонтальна лінія
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = colBright;
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(scaleX - 160, scaleBottomY);
-    ctx.lineTo(scaleX + 160, scaleBottomY);
+    ctx.moveTo(scaleX - 160, scaleTopY);
+    ctx.lineTo(scaleX + 160, scaleTopY);
     ctx.stroke();
 
     // Поділки вліво
-    ctx.lineWidth = 0.7;
+    ctx.lineWidth = 0.8;
     for (let i = 1; i <= 8; i++) {
       const tx = scaleX - i * hTickSpacing;
       const isMajor = i % 2 === 0;
-      const tickH = isMajor ? 10 : 5;
+      const tickH = isMajor ? 12 : 6;
       ctx.beginPath();
-      ctx.moveTo(tx, scaleBottomY);
-      ctx.lineTo(tx, scaleBottomY - tickH);
+      ctx.moveTo(tx, scaleTopY);
+      ctx.lineTo(tx, scaleTopY + tickH);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = col;
-        ctx.font = "7px 'Share Tech Mono',monospace";
+        ctx.fillStyle = colBright;
+        ctx.font = "8px 'Share Tech Mono',monospace";
         ctx.textAlign = "center";
-        ctx.textBaseline = "bottom";
-        ctx.fillText(`${i * 2.5}°`, tx, scaleBottomY - tickH - 2);
+        ctx.textBaseline = "top";
+        ctx.fillText(`${i * 2.5}°`, tx, scaleTopY + tickH + 2);
       }
     }
 
@@ -953,17 +952,17 @@ export default function App() {
     for (let i = 1; i <= 8; i++) {
       const tx = scaleX + i * hTickSpacing;
       const isMajor = i % 2 === 0;
-      const tickH = isMajor ? 10 : 5;
+      const tickH = isMajor ? 12 : 6;
       ctx.beginPath();
-      ctx.moveTo(tx, scaleBottomY);
-      ctx.lineTo(tx, scaleBottomY - tickH);
+      ctx.moveTo(tx, scaleTopY);
+      ctx.lineTo(tx, scaleTopY + tickH);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = col;
-        ctx.font = "7px 'Share Tech Mono',monospace";
+        ctx.fillStyle = colBright;
+        ctx.font = "8px 'Share Tech Mono',monospace";
         ctx.textAlign = "center";
-        ctx.textBaseline = "bottom";
-        ctx.fillText(`${i * 2.5}°`, tx, scaleBottomY - tickH - 2);
+        ctx.textBaseline = "top";
+        ctx.fillText(`${i * 2.5}°`, tx, scaleTopY + tickH + 2);
       }
     }
 
