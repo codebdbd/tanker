@@ -847,8 +847,8 @@ export default function App() {
   function drawCrosshair(ctx: CanvasRenderingContext2D, x: number) {
     ctx.save();
 
-    const col = "rgba(120,160,140,0.18)";
-    const colBright = "rgba(140,200,160,0.45)";
+    const col = "rgba(0,0,0,0.3)";
+    const colBright = "rgba(0,0,0,0.5)";
 
     // ===== КРЕСТ ПРИЦІЛА (на весь екран) =====
     ctx.strokeStyle = colBright;
