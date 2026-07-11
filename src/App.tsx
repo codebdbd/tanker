@@ -416,7 +416,7 @@ export default function App() {
 
     ctx.save();
     const pad = 12;
-    arcadeViewport(ctx, pad, pad, VIEW_W - pad * 2, VIEW_H - pad * 2);
+    roundedPill(ctx, pad, pad, VIEW_W - pad * 2, VIEW_H - pad * 2);
     ctx.clip();
 
     drawScene(ctx, now);
@@ -458,8 +458,7 @@ export default function App() {
     ctx.restore();
   }
 
-  // Форма вікна перископа як у оригінальному автоматі — прямокутник з вигинами
-  function arcadeViewport(
+  function roundedPill(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
@@ -467,44 +466,12 @@ export default function App() {
     h: number
   ) {
     ctx.beginPath();
-    const cy = y + h / 2;
-    const indent = h * 0.18; // вигин зверху і знизу
-    const notch = h * 0.12; // виріз зверху по центру
-
-    // Починаємо зліва по центру
-    ctx.moveTo(x, cy);
-
-    // Ліва стінка вгору (з вигином всередину)
-    ctx.quadraticCurveTo(x, y + indent, x + w * 0.15, y + indent * 0.5);
-
-    // Верхня частина зліва до вирізу
-    ctx.lineTo(x + w * 0.42, y);
-
-    // Виріз зверху (трикутник вниз)
-    ctx.lineTo(x + w * 0.5, y + notch);
-    ctx.lineTo(x + w * 0.58, y);
-
-    // Верхня частина справа
-    ctx.lineTo(x + w - w * 0.15, y + indent * 0.5);
-
-    // Права стінка вгору
-    ctx.quadraticCurveTo(x + w, y + indent, x + w, cy);
-
-    // Права стінка вниз
-    ctx.quadraticCurveTo(x + w, y + h - indent, x + w - w * 0.15, y + h - indent * 0.5);
-
-    // Нижня частина справа
-    ctx.lineTo(x + w * 0.58, y + h);
-
-    // Нижній вигин по центру
-    ctx.quadraticCurveTo(x + w * 0.5, y + h - notch * 0.6, x + w * 0.42, y + h);
-
-    // Нижня частина зліва
-    ctx.lineTo(x + w * 0.15, y + h - indent * 0.5);
-
-    // Ліва стінка вниз
-    ctx.quadraticCurveTo(x, y + h - indent, x, cy);
-
+    const r = h / 2;
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arc(x + w - r, y + r, r, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(x + r, y + h);
+    ctx.arc(x + r, y + r, r, Math.PI / 2, -Math.PI / 2);
     ctx.closePath();
   }
 
