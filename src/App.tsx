@@ -567,10 +567,10 @@ export default function App() {
     // Масштаб 1/1.8 — зменшуємо танкер у 1.8 раза відносно попереднього розміру.
     ctx.scale(dir / 1.8, 1 / 1.8);
 
-    // Габариты танкера (длинный низкий корпус)
-    const w = 220; // длина
-    const hullH = 14; // высота надводного борта
-    const bowLen = 24; // длина носовой оконечности
+    // Габариты танкера (довгий корпус з помірним бортом)
+    const w = 240; // довжина
+    const hullH = 18; // висота надводного борта (більше для танкера)
+    const bowLen = 20; // довжина носової частини
 
     // ============ КОРПУС ============
     // Основной цвет — тёмно-красно-бурый (типичный сурик у танкеров)
@@ -651,52 +651,50 @@ export default function App() {
     }
 
     // ============ НАДСТРОЙКА НА КОРМЕ ============
-    // У танкеров жилая надстройка и мостик расположены на корме
-    const supX = -w / 2 + 20; // ближе к корме (слева при dir=1)
-    const supW = 44;
-    const supH = 26;
+    // Надстройка танкера — компактна, на кормі
+    const supX = -w / 2 + 16;
+    const supW = 36;
+    const supH = 22;
 
-    // Основной блок надстройки — белый (жилые палубы)
+    // Основний блок надстройки
     ctx.fillStyle = superstructureColor;
     ctx.fillRect(supX, -hullH - supH, supW, supH);
 
     if (!silhouette) {
-      // Тень на дальней стороне
-      ctx.fillStyle = "rgba(0,0,0,0.25)";
-      ctx.fillRect(supX + supW - 6, -hullH - supH, 6, supH);
+      // Тінь
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.fillRect(supX + supW - 5, -hullH - supH, 5, supH);
     }
 
-    // Ряды иллюминаторов/окон (тёмные полоски по этажам)
+    // Вікна (ряди)
     ctx.fillStyle = windowColor;
-    for (let row = 0; row < 4; row++) {
-      const ry = -hullH - supH + 3 + row * 6;
+    for (let row = 0; row < 3; row++) {
+      const ry = -hullH - supH + 4 + row * 6;
       ctx.fillRect(supX + 3, ry, supW - 6, 1.5);
     }
 
-    // Мостик наверху (шире, чем надстройка) — рулевая рубка
-    const bridgeW = supW + 8;
-    const bridgeH = 6;
+    // Мостик зверху
+    const bridgeW = supW + 6;
+    const bridgeH = 5;
     ctx.fillStyle = superstructureLight;
-    ctx.fillRect(supX - 4, -hullH - supH - bridgeH, bridgeW, bridgeH);
-    // Окна мостика (одна длинная полоса)
+    ctx.fillRect(supX - 3, -hullH - supH - bridgeH, bridgeW, bridgeH);
+    // Вікна мостика
     ctx.fillStyle = bridgeWindowColor;
-    ctx.fillRect(supX - 2, -hullH - supH - bridgeH + 1.5, bridgeW - 4, 2);
+    ctx.fillRect(supX - 1, -hullH - supH - bridgeH + 1.5, bridgeW - 2, 2);
 
     // ============ ТРУБА ============
-    // Труба со стороны кормы за надстройкой
-    const funnelX = supX - 2;
-    const funnelW = 12;
-    const funnelH = 20;
+    const funnelX = supX + 2;
+    const funnelW = 10;
+    const funnelH = 16;
     ctx.fillStyle = superstructureLight;
     ctx.fillRect(funnelX, -hullH - supH - bridgeH - funnelH + 4, funnelW, funnelH);
-    // Чёрная шапка трубы
+    // Чорна шапка труби
     ctx.fillStyle = funnelCapColor;
     ctx.fillRect(funnelX - 1, -hullH - supH - bridgeH - funnelH + 3, funnelW + 2, 2);
 
-    // ============ МАЧТА С ФЛАГОМ ============
-    // Кормовой флагшток с российским флагом (маленький развевающийся флаг)
-    const mastX = supX + supW - 6;
-    const mastTop = -hullH - supH - bridgeH - 18;
+    // ============ МАЧТА З ПРАПОРОМ ============
+    const mastX = supX + supW - 4;
+    const mastTop = -hullH - supH - bridgeH - 14;
     ctx.strokeStyle = "#2a2a2a";
     ctx.lineWidth = 1.2;
     ctx.beginPath();
