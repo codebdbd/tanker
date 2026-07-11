@@ -177,7 +177,7 @@ export default function App() {
     o.type = "square";
     o.frequency.setValueAtTime(800, ctx.currentTime);
     o.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.03);
-    g.gain.setValueAtTime(0.08, ctx.currentTime);
+    g.gain.setValueAtTime(0.04, ctx.currentTime);
     g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
     o.connect(g).connect(ctx.destination);
     o.start();
@@ -263,7 +263,10 @@ export default function App() {
           bestI = i;
         }
       }
-      if (bestI !== aimIndexRef.current) setAimIndex(bestI);
+      if (bestI !== aimIndexRef.current) {
+        playClick();
+        setAimIndex(bestI);
+      }
     };
     const onClick = (e: MouseEvent) => {
       e.preventDefault();
