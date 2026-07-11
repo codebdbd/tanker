@@ -484,6 +484,8 @@ export default function App() {
 
     const s = shipRef.current;
     if (s.alive) {
+      // След за кормой (піна)
+      drawWake(ctx, s.x * VIEW_W, HORIZON_Y, s.dir, now);
       // ватерлиния корабля точно на линии горизонта
       drawShip(ctx, s.x * VIEW_W, HORIZON_Y, s.dir);
     }
@@ -538,6 +540,58 @@ export default function App() {
     ctx.closePath();
     ctx.globalAlpha = 0.35;
     ctx.fill();
+    ctx.restore();
+  }
+
+  // След за кормой — біла піна, що розширюється назад
+  function drawWake(
+    ctx: CanvasRenderingContext2D,
+    shipX: number,
+    horizonY: number,
+    dir: 1 | -1,
+    now: number
+  ) {
+    const t = now / 1000;
+    const wakeLen = 120; // довжина сліду в пікселях
+    const wakeStart = dir === 1 ? shipX - 60 : shipX + 60; // з корми
+    const wakeEnd = dir === 1 ? shipX - wakeLen : shipX + wakeLen;
+
+    ctx.save();
+    ctx.globalAlpha = 0.4;
+
+    // Основний слід — V-подібна піна
+    for (let i = 0; i < 12; i++) {
+      const p = i / 12;
+      const x = wakeStart + (wakeEnd - wakeStart) * p;
+      const spread = p * 35; // розширення
+      const alpha = (1 - p) * 0.5;
+      const wave = Math.sin(t * 3 + i * 0.8) * 2 * p;
+
+      ctx.fillStyle = `rgba(200,220,240,${alpha})`;
+      ctx.beginPath();
+      ctx.ellipse(
+        x,
+        horizonY + 2 + wave,
+        8 + p * 12,
+        1.5 + spread * 0.08,
+        0,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+    }
+
+    // Більш яскрава смужка ближче до корми
+    ctx.globalAlpha = 0.6;
+    ctx.fillStyle = "rgba(230,240,255,0.5)";
+    ctx.beginPath();
+    ctx.moveTo(wakeStart, horizonY + 1);
+    ctx.lineTo(wakeEnd, horizonY + 4);
+    ctx.lineTo(wakeEnd, horizonY + 7);
+    ctx.lineTo(wakeStart, horizonY + 3);
+    ctx.closePath();
+    ctx.fill();
+
     ctx.restore();
   }
 
