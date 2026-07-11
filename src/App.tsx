@@ -882,9 +882,10 @@ export default function App() {
           />
 
           <div className="p-2 md:p-0">
-            <div className="text-center mb-2">
+          <div className="flex items-center justify-between gap-2 mb-2 px-2">
+            <Scoreboard label="ВЛУЧАННЯ" value={score} color="#ff5a2a" />
             <h1
-              className="inline-block text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em]"
+              className="text-center text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] shrink-0"
               style={{
                 color: "#1a1e22",
                 textShadow:
@@ -894,14 +895,6 @@ export default function App() {
             >
               РОСІЙСЬКИЙ ТАНКЕР, ІДІ НА...!
             </h1>
-          </div>
-
-          <div className="flex items-center justify-between gap-2 mb-2 px-2">
-            <Scoreboard label="ВЛУЧАННЯ" value={score} color="#ff5a2a" />
-            <div className="text-center text-xs md:text-sm tracking-widest text-slate-900 font-semibold">
-              <div>Україна · 2026</div>
-              <div className="text-[10px] text-slate-800/80">ігровий автомат</div>
-            </div>
             <Scoreboard label="ТОРПЕДИ" value={shots} color="#2affaa" />
           </div>
 
