@@ -867,7 +867,7 @@ export default function App() {
     <div className="min-h-screen w-full bg-gradient-to-b from-[#1a1e22] to-[#050708] text-slate-200 flex flex-col items-center justify-center p-4 select-none">
       <div className="w-full max-w-5xl">
         <div
-          className="relative rounded-[36px] p-6 md:p-10 shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
+          className="relative rounded-[36px] p-4 md:p-10 shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
           style={{
             background:
               "linear-gradient(180deg,#c8ced4 0%,#8a9098 25%,#5a6068 55%,#3a4046 80%,#2a2e34 100%)",
@@ -881,9 +881,9 @@ export default function App() {
             style={{ boxShadow: "inset 0 0 0 2px rgba(0,0,0,0.4)" }}
           />
 
-          <div className="text-center mb-5">
+          <div className="text-center mb-4">
             <h1
-              className="inline-block px-6 py-2 rounded-md text-lg md:text-2xl tracking-[0.2em] font-black whitespace-nowrap"
+              className="inline-block px-4 md:px-6 py-2 rounded-md text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] font-black"
               style={{
                 background:
                   "linear-gradient(180deg,#e8ecef 0%,#a8b0b8 45%,#6a7278 55%,#3a4046 100%)",
@@ -965,11 +965,11 @@ export default function App() {
             <PeriscopeGauge aimRef={aimRef} />
           </div>
 
-          <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
+          <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 w-full md:w-auto">
               <button
                 onClick={reset}
-                className="px-4 py-2 rounded-md text-slate-100 text-sm tracking-wider shadow-inner"
+                className="px-3 md:px-4 py-1.5 md:py-2 rounded-md text-slate-100 text-xs md:text-sm tracking-wider shadow-inner"
                 style={{
                   background:
                     "linear-gradient(180deg,#8a9098 0%,#5a6068 55%,#3a4046 100%)",
@@ -981,35 +981,37 @@ export default function App() {
               >
                 СКИДАННЯ
               </button>
-              <div className="text-slate-900 text-[11px] md:text-xs font-semibold normal-case tracking-normal whitespace-nowrap">
+              <div className="text-slate-900 text-[10px] md:text-xs font-semibold normal-case tracking-normal">
                 <span className="text-black font-bold">←→</span> рух прицілу ·{" "}
                 <span className="text-black font-bold">Пробіл</span> вогонь ·{" "}
                 <span className="text-black font-bold">R</span> перезапуск
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <HoldButton
-                label="◄"
-                onPress={(v) => {
-                  keysRef.current.left = v;
-                  if (v) stepAim(-1);
-                }}
-              />
-              <HoldButton
-                label="►"
-                onPress={(v) => {
-                  keysRef.current.right = v;
-                  if (v) stepAim(+1);
-                }}
-              />
+            <div className="flex items-center justify-between w-full md:w-auto gap-3">
+              <div className="flex items-center gap-2 md:gap-3">
+                <HoldButton
+                  label="◄"
+                  onPress={(v) => {
+                    keysRef.current.left = v;
+                    if (v) stepAim(-1);
+                  }}
+                />
+                <HoldButton
+                  label="►"
+                  onPress={(v) => {
+                    keysRef.current.right = v;
+                    if (v) stepAim(+1);
+                  }}
+                />
+              </div>
               <button
                 onMouseDown={fire}
                 onTouchStart={(e) => {
                   e.preventDefault();
                   fire();
                 }}
-                className="relative w-24 h-24 rounded-full active:translate-y-1 transition-transform"
+                className="relative w-20 h-20 md:w-24 md:h-24 rounded-full active:translate-y-1 transition-transform"
                 style={{
                   background:
                     "radial-gradient(circle at 35% 30%, #ff6b3a 0%, #b31a08 45%, #6a0a02 100%)",
@@ -1023,7 +1025,7 @@ export default function App() {
                   style={{
                     textShadow: "0 2px 0 #400000",
                     fontFamily: "'Impact','Arial Black',sans-serif",
-                    fontSize: 18,
+                    fontSize: 16,
                   }}
                 >
                   ВОГОНЬ
