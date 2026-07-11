@@ -1074,7 +1074,7 @@ export default function App() {
               <div className="text-slate-800 text-xs tracking-wider mt-1 font-medium">
                 <span className="font-bold">←→</span> рух ·{" "}
                 <span className="font-bold">Пробіл</span> вогонь ·{" "}
-                <span className="font-bold">R</span> скидання
+                <span className="font-bold">R</span> рестарт
               </div>
             </div>
             <Scoreboard label="ТОРПЕДИ" value={shots} color="#2affaa" />
@@ -1139,19 +1139,13 @@ export default function App() {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 w-full md:w-auto">
               <button
                 onClick={reset}
-                className="px-3 md:px-4 py-1.5 md:py-2 rounded-md text-slate-100 text-xs md:text-sm tracking-wider shadow-inner"
+                className="px-2 py-1 text-slate-900/50 text-[10px] md:text-xs tracking-wider hover:text-slate-900 transition-colors"
                 style={{
-                  background:
-                    "linear-gradient(180deg,#8a9098 0%,#5a6068 55%,#3a4046 100%)",
-                  border: "1px solid #1a1e22",
-                  boxShadow:
-                    "inset 0 1px 2px rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 0 #1a1e22",
-                  textShadow: "0 -1px 0 rgba(0,0,0,0.4)",
                   fontFamily: "'Orbitron',sans-serif",
                   fontWeight: 700,
                 }}
               >
-                СКИДАННЯ
+                РЕСТАРТ
               </button>
             </div>
 
