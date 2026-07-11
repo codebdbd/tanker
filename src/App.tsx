@@ -495,8 +495,6 @@ export default function App() {
 
     const s = shipRef.current;
     if (s.alive) {
-      // След за кормой (піна)
-      drawWake(ctx, s.x * VIEW_W, HORIZON_Y, s.dir, now);
       // ватерлиния корабля точно на линии горизонта
       drawShip(ctx, s.x * VIEW_W, HORIZON_Y, s.dir);
     }
@@ -551,74 +549,6 @@ export default function App() {
     ctx.closePath();
     ctx.globalAlpha = 0.35;
     ctx.fill();
-    ctx.restore();
-  }
-
-  // След за кормой — чиста біла V-подібна піна
-  function drawWake(
-    ctx: CanvasRenderingContext2D,
-    shipX: number,
-    horizonY: number,
-    dir: 1 | -1,
-    now: number
-  ) {
-    const t = now / 1000;
-    const wakeLen = 140;
-    // Корма — звідки починається слід
-    const sternX = dir === 1 ? shipX - 55 : shipX + 55;
-    const wakeEndX = dir === 1 ? sternX - wakeLen : sternX + wakeLen;
-    const sign = dir === 1 ? -1 : 1;
-
-    ctx.save();
-
-    // Дві бічні лінії сліду (V від корми)
-    for (let side = -1; side <= 1; side += 2) {
-      ctx.beginPath();
-      ctx.strokeStyle = `rgba(200,220,240,0.25)`;
-      ctx.lineWidth = 1.5;
-      const spread = side * 28;
-
-      ctx.moveTo(sternX, horizonY + 2);
-      for (let i = 1; i <= 20; i++) {
-        const p = i / 20;
-        const x = sternX + sign * wakeLen * p;
-        const y = horizonY + 2 + spread * p * p + Math.sin(t * 2.5 + i * 0.5) * 1.5 * p;
-        ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-    }
-
-    // Тонка центральна лінія (кильова хвиля)
-    ctx.beginPath();
-    ctx.strokeStyle = "rgba(180,200,220,0.15)";
-    ctx.lineWidth = 1;
-    ctx.moveTo(sternX, horizonY + 2);
-    for (let i = 1; i <= 15; i++) {
-      const p = i / 15;
-      const x = sternX + sign * wakeLen * 0.7 * p;
-      const y = horizonY + 2 + Math.sin(t * 3 + i * 0.6) * 1 * p;
-      ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    // Декілька коротких поперечних хвиль біля корми
-    ctx.strokeStyle = "rgba(200,220,240,0.18)";
-    ctx.lineWidth = 0.8;
-    for (let i = 0; i < 5; i++) {
-      const p = (i + 1) / 6;
-      const x = sternX + sign * wakeLen * 0.3 * p;
-      const spread = 6 + i * 4;
-      ctx.beginPath();
-      ctx.moveTo(x, horizonY + 2 - spread * 0.3);
-      ctx.quadraticCurveTo(
-        x + sign * 3,
-        horizonY + 2,
-        x,
-        horizonY + 2 + spread * 0.3
-      );
-      ctx.stroke();
-    }
-
     ctx.restore();
   }
 
