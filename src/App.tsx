@@ -847,12 +847,12 @@ export default function App() {
   function drawCrosshair(ctx: CanvasRenderingContext2D, x: number) {
     ctx.save();
 
-    const col = "rgba(0,0,0,0.3)";
-    const colBright = "rgba(0,0,0,0.5)";
+    const col = "rgba(0,0,0,0.4)";
+    const colBright = "rgba(0,0,0,0.7)";
 
     // ===== КРЕСТ ПРИЦІЛА (на весь екран) =====
     ctx.strokeStyle = colBright;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(x, 20);
     ctx.lineTo(x, VIEW_H - 20);
@@ -861,9 +861,16 @@ export default function App() {
     ctx.stroke();
 
     // Окружність прицілу
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.arc(x, HORIZON_Y, 14, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Точка в центрі
+    ctx.fillStyle = colBright;
+    ctx.beginPath();
+    ctx.arc(x, HORIZON_Y, 2, 0, Math.PI * 2);
+    ctx.fill();
     ctx.stroke();
 
     // ===== ШКАЛА ЗЛІВА (вертикальна, з цифрами 50, 100) =====
