@@ -106,7 +106,11 @@ export default function App() {
     aimRef.current = AIM_POSITIONS[clamped];
   }
   function stepAim(delta: number) {
-    setAimIndex(aimIndexRef.current + delta);
+    const newIndex = aimIndexRef.current + delta;
+    if (newIndex !== aimIndexRef.current) {
+      playClick();
+    }
+    setAimIndex(newIndex);
   }
 
   const [score, setScore] = useState(0);
@@ -164,6 +168,19 @@ export default function App() {
     filter.frequency.value = 700;
     src.connect(filter).connect(g).connect(ctx.destination);
     src.start();
+  }
+  function playClick() {
+    const ctx = getAudio();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = "square";
+    o.frequency.setValueAtTime(800, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.03);
+    g.gain.setValueAtTime(0.06, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+    o.connect(g).connect(ctx.destination);
+    o.start();
+    o.stop(ctx.currentTime + 0.05);
   }
   function playMiss() {
     const ctx = getAudio();
@@ -399,12 +416,16 @@ export default function App() {
 
     ctx.save();
     const pad = 12;
-    roundedPill(ctx, pad, pad, VIEW_W - pad * 2, VIEW_H - pad * 2);
+    arcadeViewport(ctx, pad, pad, VIEW_W - pad * 2, VIEW_H - pad * 2);
     ctx.clip();
 
     drawScene(ctx, now);
 
-    // Віньєтка — затемнення по краях окала перископа
+    // Зелений CRT-відтінок
+    ctx.fillStyle = "rgba(0,40,20,0.12)";
+    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+
+    // Віньєтка
     const vigCx = VIEW_W / 2;
     const vigCy = VIEW_H / 2;
     const vigR = Math.max(VIEW_W, VIEW_H) * 0.55;
@@ -414,6 +435,12 @@ export default function App() {
     vigGrad.addColorStop(1, "rgba(0,0,0,0.7)");
     ctx.fillStyle = vigGrad;
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+
+    // Сканлайни (горизонтальні полоси як на CRT)
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+    for (let sy = 0; sy < VIEW_H; sy += 3) {
+      ctx.fillRect(0, sy, VIEW_W, 1);
+    }
 
     ctx.restore();
 
@@ -431,7 +458,8 @@ export default function App() {
     ctx.restore();
   }
 
-  function roundedPill(
+  // Форма вікна перископа як у оригінальному автоматі — прямокутник з вигинами
+  function arcadeViewport(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
@@ -439,12 +467,44 @@ export default function App() {
     h: number
   ) {
     ctx.beginPath();
-    const r = h / 2;
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.arc(x + w - r, y + r, r, -Math.PI / 2, Math.PI / 2);
-    ctx.lineTo(x + r, y + h);
-    ctx.arc(x + r, y + r, r, Math.PI / 2, -Math.PI / 2);
+    const cy = y + h / 2;
+    const indent = h * 0.18; // вигин зверху і знизу
+    const notch = h * 0.12; // виріз зверху по центру
+
+    // Починаємо зліва по центру
+    ctx.moveTo(x, cy);
+
+    // Ліва стінка вгору (з вигином всередину)
+    ctx.quadraticCurveTo(x, y + indent, x + w * 0.15, y + indent * 0.5);
+
+    // Верхня частина зліва до вирізу
+    ctx.lineTo(x + w * 0.42, y);
+
+    // Виріз зверху (трикутник вниз)
+    ctx.lineTo(x + w * 0.5, y + notch);
+    ctx.lineTo(x + w * 0.58, y);
+
+    // Верхня частина справа
+    ctx.lineTo(x + w - w * 0.15, y + indent * 0.5);
+
+    // Права стінка вгору
+    ctx.quadraticCurveTo(x + w, y + indent, x + w, cy);
+
+    // Права стінка вниз
+    ctx.quadraticCurveTo(x + w, y + h - indent, x + w - w * 0.15, y + h - indent * 0.5);
+
+    // Нижня частина справа
+    ctx.lineTo(x + w * 0.58, y + h);
+
+    // Нижній вигин по центру
+    ctx.quadraticCurveTo(x + w * 0.5, y + h - notch * 0.6, x + w * 0.42, y + h);
+
+    // Нижня частина зліва
+    ctx.lineTo(x + w * 0.15, y + h - indent * 0.5);
+
+    // Ліва стінка вниз
+    ctx.quadraticCurveTo(x, y + h - indent, x, cy);
+
     ctx.closePath();
   }
 
