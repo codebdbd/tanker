@@ -896,7 +896,7 @@ export default function App() {
               >
                 РОСІЙСЬКИЙ ТАНКЕР, ІДІ НА...!
               </h1>
-              <div className="hidden md:block text-slate-700 text-[10px] tracking-wider mt-0.5">
+              <div className="hidden md:block text-slate-800 text-xs tracking-wider mt-1 font-medium">
                 <span className="font-bold">←→</span> рух ·{" "}
                 <span className="font-bold">Пробіл</span> вогонь ·{" "}
                 <span className="font-bold">R</span> скидання
