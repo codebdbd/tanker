@@ -794,39 +794,44 @@ export default function App() {
     const endX = aim * VIEW_W;
     const endY = HORIZON_Y + 4;
 
-    const cx = startX + (endX - startX) * p;
-    const cy = startY + (endY - startY) * p;
+    // Поточна позиція голови торпеди
+    const headX = startX + (endX - startX) * p;
+    const headY = startY + (endY - startY) * p;
+
+    // Довжина корпусу торпеди (сегмент)
+    const torpedoLen = 30;
+    const angle = Math.atan2(headY - startY, headX - startX);
+    const tailX = headX - Math.cos(angle) * torpedoLen;
+    const tailY = headY - Math.sin(angle) * torpedoLen;
 
     ctx.save();
-    ctx.shadowColor = "rgba(80,255,120,0.9)";
-    ctx.shadowBlur = 18;
 
-    const dashLen = 14;
-    const gapLen = 10;
-    ctx.setLineDash([dashLen, gapLen]);
-    const phase = (now / 40) % (dashLen + gapLen);
-    ctx.lineDashOffset = -phase;
+    // Свічення навколо
+    ctx.shadowColor = "rgba(80,255,120,0.7)";
+    ctx.shadowBlur = 12;
+
+    // Корпус торпеди (товста лінія)
+    ctx.strokeStyle = "rgba(100,255,140,0.6)";
+    ctx.lineWidth = 5;
     ctx.lineCap = "round";
-
-    ctx.strokeStyle = "rgba(60,255,110,0.35)";
-    ctx.lineWidth = 8;
     ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(cx, cy);
+    ctx.moveTo(tailX, tailY);
+    ctx.lineTo(headX, headY);
     ctx.stroke();
 
+    // Яскравіша серцевина
     ctx.strokeStyle = "#a8ffb0";
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(cx, cy);
+    ctx.moveTo(tailX, tailY);
+    ctx.lineTo(headX, headY);
     ctx.stroke();
 
-    ctx.setLineDash([]);
-    ctx.shadowBlur = 25;
+    // Голова торпеди (яскрава крапка)
+    ctx.shadowBlur = 18;
     ctx.fillStyle = "#e6ffe6";
     ctx.beginPath();
-    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+    ctx.arc(headX, headY, 4, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.restore();
