@@ -867,7 +867,7 @@ export default function App() {
     <div className="min-h-screen w-full bg-gradient-to-b from-[#1a1e22] to-[#050708] text-slate-200 flex flex-col items-center justify-center p-0 md:p-4 select-none">
       <div className="w-full max-w-5xl">
         <div
-          className="relative rounded-none md:rounded-[36px] p-0 md:p-10 shadow-none md:shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
+          className="relative rounded-none md:rounded-[36px] p-0 md:p-6 shadow-none md:shadow-[0_25px_80px_rgba(0,0,0,0.8)]"
           style={{
             background:
               "linear-gradient(180deg,#c8ced4 0%,#8a9098 25%,#5a6068 55%,#3a4046 80%,#2a2e34 100%)",
@@ -881,19 +881,14 @@ export default function App() {
             style={{ boxShadow: "inset 0 0 0 2px rgba(0,0,0,0.4)" }}
           />
 
-          <div className="p-4 md:p-0">
-            <div className="text-center mb-4">
+          <div className="p-2 md:p-0">
+            <div className="text-center mb-2">
             <h1
-              className="inline-block px-4 md:px-6 py-2 rounded-md text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] font-black"
+              className="inline-block text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] font-black"
               style={{
-                background:
-                  "linear-gradient(180deg,#e8ecef 0%,#a8b0b8 45%,#6a7278 55%,#3a4046 100%)",
                 color: "#1a1e22",
                 textShadow:
                   "0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.4)",
-                border: "2px solid #2a2e32",
-                boxShadow:
-                  "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.4), 0 4px 0 #1a1e22, 0 6px 12px rgba(0,0,0,0.5)",
                 fontFamily: "'Impact','Arial Black',sans-serif",
               }}
             >
@@ -901,7 +896,7 @@ export default function App() {
             </h1>
           </div>
 
-          <div className="flex items-center justify-between gap-4 mb-4 px-2">
+          <div className="flex items-center justify-between gap-2 mb-2 px-2">
             <Scoreboard label="ВЛУЧАННЯ" value={score} color="#ff5a2a" />
             <div className="text-center text-xs md:text-sm tracking-widest text-slate-900 font-semibold">
               <div>Україна · 2026</div>
@@ -965,7 +960,7 @@ export default function App() {
             <PeriscopeGauge aimRef={aimRef} />
           </div>
 
-          <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
+          <div className="mt-2 md:mt-4 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-3">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 w-full md:w-auto">
               <button
                 onClick={reset}
@@ -1136,7 +1131,7 @@ function PeriscopeGauge({
   // aim: AIM_MIN..AIM_MAX → 0..1
   const pct = ((aim - AIM_MIN) / (AIM_MAX - AIM_MIN)) * 100;
   return (
-    <div className="mx-auto mt-3 max-w-md">
+    <div className="mx-auto mt-2 max-w-md">
       <div className="flex items-center justify-between text-[10px] tracking-widest text-slate-900 font-bold mb-1 px-1">
         <span>◄ ЛІВИЙ БОРТ</span>
         <span>ПРИЦІЛ</span>
