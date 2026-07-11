@@ -554,7 +554,7 @@ export default function App() {
     ctx.restore();
   }
 
-  // След за кормой — біла піна, що розширюється назад
+  // След за кормой — чиста біла V-подібна піна
   function drawWake(
     ctx: CanvasRenderingContext2D,
     shipX: number,
@@ -563,45 +563,61 @@ export default function App() {
     now: number
   ) {
     const t = now / 1000;
-    const wakeLen = 120; // довжина сліду в пікселях
-    const wakeStart = dir === 1 ? shipX - 60 : shipX + 60; // з корми
-    const wakeEnd = dir === 1 ? shipX - wakeLen : shipX + wakeLen;
+    const wakeLen = 140;
+    // Корма — звідки починається слід
+    const sternX = dir === 1 ? shipX - 55 : shipX + 55;
+    const wakeEndX = dir === 1 ? sternX - wakeLen : sternX + wakeLen;
+    const sign = dir === 1 ? -1 : 1;
 
     ctx.save();
-    ctx.globalAlpha = 0.4;
 
-    // Основний слід — V-подібна піна
-    for (let i = 0; i < 12; i++) {
-      const p = i / 12;
-      const x = wakeStart + (wakeEnd - wakeStart) * p;
-      const spread = p * 35; // розширення
-      const alpha = (1 - p) * 0.5;
-      const wave = Math.sin(t * 3 + i * 0.8) * 2 * p;
-
-      ctx.fillStyle = `rgba(200,220,240,${alpha})`;
+    // Дві бічні лінії сліду (V від корми)
+    for (let side = -1; side <= 1; side += 2) {
       ctx.beginPath();
-      ctx.ellipse(
-        x,
-        horizonY + 2 + wave,
-        8 + p * 12,
-        1.5 + spread * 0.08,
-        0,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
+      ctx.strokeStyle = `rgba(200,220,240,0.25)`;
+      ctx.lineWidth = 1.5;
+      const spread = side * 28;
+
+      ctx.moveTo(sternX, horizonY + 2);
+      for (let i = 1; i <= 20; i++) {
+        const p = i / 20;
+        const x = sternX + sign * wakeLen * p;
+        const y = horizonY + 2 + spread * p * p + Math.sin(t * 2.5 + i * 0.5) * 1.5 * p;
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
     }
 
-    // Більш яскрава смужка ближче до корми
-    ctx.globalAlpha = 0.6;
-    ctx.fillStyle = "rgba(230,240,255,0.5)";
+    // Тонка центральна лінія (кильова хвиля)
     ctx.beginPath();
-    ctx.moveTo(wakeStart, horizonY + 1);
-    ctx.lineTo(wakeEnd, horizonY + 4);
-    ctx.lineTo(wakeEnd, horizonY + 7);
-    ctx.lineTo(wakeStart, horizonY + 3);
-    ctx.closePath();
-    ctx.fill();
+    ctx.strokeStyle = "rgba(180,200,220,0.15)";
+    ctx.lineWidth = 1;
+    ctx.moveTo(sternX, horizonY + 2);
+    for (let i = 1; i <= 15; i++) {
+      const p = i / 15;
+      const x = sternX + sign * wakeLen * 0.7 * p;
+      const y = horizonY + 2 + Math.sin(t * 3 + i * 0.6) * 1 * p;
+      ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Декілька коротких поперечних хвиль біля корми
+    ctx.strokeStyle = "rgba(200,220,240,0.18)";
+    ctx.lineWidth = 0.8;
+    for (let i = 0; i < 5; i++) {
+      const p = (i + 1) / 6;
+      const x = sternX + sign * wakeLen * 0.3 * p;
+      const spread = 6 + i * 4;
+      ctx.beginPath();
+      ctx.moveTo(x, horizonY + 2 - spread * 0.3);
+      ctx.quadraticCurveTo(
+        x + sign * 3,
+        horizonY + 2,
+        x,
+        horizonY + 2 + spread * 0.3
+      );
+      ctx.stroke();
+    }
 
     ctx.restore();
   }
