@@ -171,12 +171,13 @@ export default function App() {
   }
   function playClick() {
     const ctx = getAudio();
+    if (ctx.state === "suspended") ctx.resume();
     const o = ctx.createOscillator();
     const g = ctx.createGain();
     o.type = "square";
     o.frequency.setValueAtTime(800, ctx.currentTime);
     o.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.03);
-    g.gain.setValueAtTime(0.06, ctx.currentTime);
+    g.gain.setValueAtTime(0.08, ctx.currentTime);
     g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
     o.connect(g).connect(ctx.destination);
     o.start();
