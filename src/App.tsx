@@ -866,68 +866,106 @@ export default function App() {
     ctx.arc(x, HORIZON_Y, 14, 0, Math.PI * 2);
     ctx.stroke();
 
-    // ===== ШКАЛА ЗВЕРХУ (горизонтальна, як на справжньому перископі) =====
-    const scaleX = VIEW_W / 2; // центр шкали
-    const scaleTopY = 30; // верхній край
-    const tickSpacing = 18; // відстань між поділками
+    // ===== ШКАЛА ЗЛІВА (вертикальна, з цифрами 50, 100) =====
+    const scaleY = VIEW_H / 2;
+    const scaleLeftX = 35;
+    const vTickSpacing = 22;
 
-    // Основна горизонтальна лінія шкали
+    // Основна вертикальна лінія
     ctx.strokeStyle = col;
     ctx.lineWidth = 0.8;
     ctx.beginPath();
-    ctx.moveTo(scaleX - 180, scaleTopY);
-    ctx.lineTo(scaleX + 180, scaleTopY);
+    ctx.moveTo(scaleLeftX, scaleY - 110);
+    ctx.lineTo(scaleLeftX, scaleY + 110);
     ctx.stroke();
 
-    // Поділки (кожна 3-я — довша)
+    // Поділки вгору (від центру)
     ctx.lineWidth = 0.7;
-    for (let i = -10; i <= 10; i++) {
-      if (i === 0) continue;
-      const tx = scaleX + i * tickSpacing;
-      const isMajor = Math.abs(i) % 3 === 0;
+    for (let i = 1; i <= 5; i++) {
+      const ty = scaleY - i * vTickSpacing;
+      const isMajor = i % 2 === 0;
+      const tickW = isMajor ? 12 : 6;
+      ctx.beginPath();
+      ctx.moveTo(scaleLeftX, ty);
+      ctx.lineTo(scaleLeftX + tickW, ty);
+      ctx.stroke();
+      // Цифри біля довгих поділок
+      if (isMajor) {
+        ctx.fillStyle = col;
+        ctx.font = "8px 'Share Tech Mono',monospace";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(i * 25), scaleLeftX + tickW + 3, ty);
+      }
+    }
+
+    // Поділки вниз (від центру)
+    for (let i = 1; i <= 5; i++) {
+      const ty = scaleY + i * vTickSpacing;
+      const isMajor = i % 2 === 0;
+      const tickW = isMajor ? 12 : 6;
+      ctx.beginPath();
+      ctx.moveTo(scaleLeftX, ty);
+      ctx.lineTo(scaleLeftX + tickW, ty);
+      ctx.stroke();
+      if (isMajor) {
+        ctx.fillStyle = col;
+        ctx.font = "8px 'Share Tech Mono',monospace";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillText(String(i * 25), scaleLeftX + tickW + 3, ty);
+      }
+    }
+
+    // ===== ШКАЛА ЗНИЗУ (горизонтальна, з градусами) =====
+    const scaleX = VIEW_W / 2;
+    const scaleBottomY = VIEW_H - 30;
+    const hTickSpacing = 20;
+
+    // Основна горизонтальна лінія
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.moveTo(scaleX - 160, scaleBottomY);
+    ctx.lineTo(scaleX + 160, scaleBottomY);
+    ctx.stroke();
+
+    // Поділки вліво
+    ctx.lineWidth = 0.7;
+    for (let i = 1; i <= 8; i++) {
+      const tx = scaleX - i * hTickSpacing;
+      const isMajor = i % 2 === 0;
       const tickH = isMajor ? 10 : 5;
       ctx.beginPath();
-      ctx.moveTo(tx, scaleTopY);
-      ctx.lineTo(tx, scaleTopY + tickH);
+      ctx.moveTo(tx, scaleBottomY);
+      ctx.lineTo(tx, scaleBottomY - tickH);
       ctx.stroke();
+      if (isMajor) {
+        ctx.fillStyle = col;
+        ctx.font = "7px 'Share Tech Mono',monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(`${i * 2.5}°`, tx, scaleBottomY - tickH - 2);
+      }
     }
 
-    // Центральна вертикальна поділка (довга)
-    ctx.beginPath();
-    ctx.moveTo(scaleX, scaleTopY);
-    ctx.lineTo(scaleX, scaleTopY + 14);
-    ctx.stroke();
-
-    // ===== ШКАЛА СПРАВА (вертикальна, як на справжньому перископі) =====
-    const scaleY = VIEW_H / 2; // центр шкали
-    const scaleRightX = VIEW_W - 30; // правий край
-
-    // Основна вертикальна лінія шкали
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 0.8;
-    ctx.beginPath();
-    ctx.moveTo(scaleRightX, scaleY - 120);
-    ctx.lineTo(scaleRightX, scaleY + 120);
-    ctx.stroke();
-
-    // Поділки (кожна 3-я — довша)
-    ctx.lineWidth = 0.7;
-    for (let i = -7; i <= 7; i++) {
-      if (i === 0) continue;
-      const ty = scaleY + i * tickSpacing;
-      const isMajor = Math.abs(i) % 3 === 0;
-      const tickW = isMajor ? 10 : 5;
+    // Поділки вправо
+    for (let i = 1; i <= 8; i++) {
+      const tx = scaleX + i * hTickSpacing;
+      const isMajor = i % 2 === 0;
+      const tickH = isMajor ? 10 : 5;
       ctx.beginPath();
-      ctx.moveTo(scaleRightX, ty);
-      ctx.lineTo(scaleRightX - tickW, ty);
+      ctx.moveTo(tx, scaleBottomY);
+      ctx.lineTo(tx, scaleBottomY - tickH);
       ctx.stroke();
+      if (isMajor) {
+        ctx.fillStyle = col;
+        ctx.font = "7px 'Share Tech Mono',monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(`${i * 2.5}°`, tx, scaleBottomY - tickH - 2);
+      }
     }
-
-    // Центральна горизонтальна поділка (довга)
-    ctx.beginPath();
-    ctx.moveTo(scaleRightX, scaleY);
-    ctx.lineTo(scaleRightX - 14, scaleY);
-    ctx.stroke();
 
     ctx.restore();
   }
