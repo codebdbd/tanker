@@ -90,9 +90,10 @@ export default function App() {
   );
 
   // Приціл — індекс однієї з 8 фіксованих позицій (0..7).
-  // Стартуємо приблизно по центру (індекс 3 або 4).
   const aimIndexRef = useRef<number>(Math.floor(TRAJECTORIES / 2));
-  // Фактична координата прицілу (0..1) — завжди дорівнює AIM_POSITIONS[index].
+  // Цільова позиція (куди рухається приціл)
+  const aimTargetRef = useRef<number>(AIM_POSITIONS[Math.floor(TRAJECTORIES / 2)]);
+  // Поточна плавна позиція (для малювання)
   const aimRef = useRef<number>(AIM_POSITIONS[Math.floor(TRAJECTORIES / 2)]);
   // Ставимо посилання на функції перемикання, які визначені нижче,
   // щоб уникнути "used before declaration" в HoldButton.
@@ -104,7 +105,7 @@ export default function App() {
   function setAimIndex(i: number) {
     const clamped = Math.max(0, Math.min(TRAJECTORIES - 1, i));
     aimIndexRef.current = clamped;
-    aimRef.current = AIM_POSITIONS[clamped];
+    aimTargetRef.current = AIM_POSITIONS[clamped];
   }
   function stepAim(delta: number) {
     setAimIndex(aimIndexRef.current + delta);
@@ -262,9 +263,14 @@ export default function App() {
   }, []);
 
   function update(dt: number, now: number) {
-    // Приціл НЕ рухається плавно — він завжди дорівнює AIM_POSITIONS[aimIndexRef].
-    // Перемикання відбувається тільки в обробниках клавіатури / миші / кнопок.
-    // keysRef більше не використовується для аіма.
+    // Плавний рух прицілу до цільової позиції
+    const aimSpeed = 12; // швидкість інтерполяції
+    const diff = aimTargetRef.current - aimRef.current;
+    if (Math.abs(diff) > 0.0001) {
+      aimRef.current += diff * Math.min(1, aimSpeed * dt);
+    } else {
+      aimRef.current = aimTargetRef.current;
+    }
 
     // Корабль плаває туди-сюди, розвертаючись на краях.
     // Після попадання (s.alive=false) він з'являється з ПРОТИЛЕЖНОГО
@@ -377,7 +383,9 @@ export default function App() {
     hitsInBatchRef.current = 0;
     firedInBatchRef.current = 0;
     speedMultRef.current = 1;
-    aimRef.current = 0.5;
+    aimIndexRef.current = Math.floor(TRAJECTORIES / 2);
+    aimTargetRef.current = AIM_POSITIONS[Math.floor(TRAJECTORIES / 2)];
+    aimRef.current = AIM_POSITIONS[Math.floor(TRAJECTORIES / 2)];
     shipRef.current = {
       x: 0.2,
       dir: 1,
