@@ -850,17 +850,18 @@ export default function App() {
     const col = "rgba(120,160,140,0.18)";
     const colBright = "rgba(140,200,160,0.45)";
 
-    // ===== КРЕСТ ПРИЦІЛА (як було) =====
+    // ===== КРЕСТ ПРИЦІЛА (на весь екран) =====
     ctx.strokeStyle = colBright;
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(x, HORIZON_Y - 40);
-    ctx.lineTo(x, HORIZON_Y + 40);
-    ctx.moveTo(x - 35, HORIZON_Y);
-    ctx.lineTo(x + 35, HORIZON_Y);
+    ctx.moveTo(x, 20);
+    ctx.lineTo(x, VIEW_H - 20);
+    ctx.moveTo(20, HORIZON_Y);
+    ctx.lineTo(VIEW_W - 20, HORIZON_Y);
     ctx.stroke();
 
     // Окружність прицілу
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.arc(x, HORIZON_Y, 14, 0, Math.PI * 2);
     ctx.stroke();
