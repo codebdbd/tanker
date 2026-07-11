@@ -884,12 +884,12 @@ export default function App() {
           <div className="p-2 md:p-0">
             <div className="text-center mb-2">
             <h1
-              className="inline-block text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em] font-black"
+              className="inline-block text-sm md:text-xl tracking-[0.15em] md:tracking-[0.2em]"
               style={{
                 color: "#1a1e22",
                 textShadow:
                   "0 1px 0 rgba(255,255,255,0.55), 0 -1px 0 rgba(0,0,0,0.4)",
-                fontFamily: "'Impact','Arial Black',sans-serif",
+                fontFamily: "'Russo One',sans-serif",
               }}
             >
               РОСІЙСЬКИЙ ТАНКЕР, ІДІ НА...!
@@ -931,7 +931,7 @@ export default function App() {
                       color: "#ff2a2a",
                       textShadow:
                         "0 0 12px rgba(255,40,40,0.9), 0 0 30px rgba(255,40,40,0.6), 0 3px 0 #300",
-                      fontFamily: "'Impact','Arial Black',sans-serif",
+                      fontFamily: "'Orbitron',sans-serif",
                     }}
                   >
                     GAME OVER
@@ -972,6 +972,8 @@ export default function App() {
                   boxShadow:
                     "inset 0 1px 2px rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 0 #1a1e22",
                   textShadow: "0 -1px 0 rgba(0,0,0,0.4)",
+                  fontFamily: "'Orbitron',sans-serif",
+                  fontWeight: 700,
                 }}
               >
                 СКИДАННЯ
@@ -1019,8 +1021,9 @@ export default function App() {
                   className="absolute inset-0 flex items-center justify-center font-black tracking-widest text-white"
                   style={{
                     textShadow: "0 2px 0 #400000",
-                    fontFamily: "'Impact','Arial Black',sans-serif",
-                    fontSize: 16,
+                    fontFamily: "'Orbitron',sans-serif",
+                    fontSize: 14,
+                    fontWeight: 900,
                   }}
                 >
                   ВОГОНЬ
@@ -1077,7 +1080,7 @@ function Scoreboard({
             style={{
               background: "#0a0d10",
               color,
-              fontFamily: "'Courier New',monospace",
+              fontFamily: "'Share Tech Mono',monospace",
               fontWeight: 900,
               fontSize: 28,
               textShadow: `0 0 8px ${color}, 0 0 16px ${color}`,
@@ -1118,6 +1121,7 @@ function HoldButton({
         boxShadow:
           "inset 0 2px 4px rgba(255,255,255,0.35), inset 0 -2px 3px rgba(0,0,0,0.4), 0 3px 0 #1a1e22",
         textShadow: "0 -1px 0 rgba(0,0,0,0.4)",
+        fontFamily: "'Orbitron',sans-serif",
       }}
     >
       {label}
@@ -1140,7 +1144,7 @@ function PeriscopeGauge({
   const pct = ((aim - AIM_MIN) / (AIM_MAX - AIM_MIN)) * 100;
   return (
     <div className="mx-auto mt-2 max-w-md">
-      <div className="flex items-center justify-between text-[10px] tracking-widest text-slate-900 font-bold mb-1 px-1">
+      <div className="flex items-center justify-between text-[10px] tracking-widest text-slate-900 font-bold mb-1 px-1" style={{ fontFamily: "'Orbitron',sans-serif" }}>
         <span>◄ ЛІВИЙ БОРТ</span>
         <span>ПРИЦІЛ</span>
         <span>ПРАВИЙ БОРТ ►</span>
