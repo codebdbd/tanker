@@ -588,39 +588,50 @@ export default function App() {
     const bridgeWindowColor = silhouette ? SIL : "#0a1018";
     const funnelCapColor = silhouette ? SIL : "#0a0a0a";
 
-    // Верхняя палуба (плоская, идёт до надстройки)
+    // Верхняя палуба (плоская, іде до надстройки)
     ctx.fillStyle = hullTop;
     ctx.beginPath();
-    // корма (слева)
+    // корма (ліворуч)
     ctx.moveTo(-w / 2, -hullH);
     ctx.lineTo(-w / 2, 0);
-    // ватерлиния до носа
+    // ватерлінія до носа
     ctx.lineTo(w / 2 - bowLen, 0);
-    // острый нос (закруглённый бульб-форштевень)
-    ctx.lineTo(w / 2, 0);
-    ctx.quadraticCurveTo(w / 2 + 6, -hullH * 0.5, w / 2 - bowLen * 0.4, -hullH);
-    // палуба обратно к корме
+    // Тупий нос танкера — вертикальний форштевень
+    ctx.lineTo(w / 2 - 2, 0);
+    ctx.lineTo(w / 2 - 2, -hullH);
+    // палуба назад до корми
     ctx.lineTo(-w / 2, -hullH);
     ctx.closePath();
     ctx.fill();
+
+    // Бульб-форштевень — виступ під водою біля носа (характерна риса танкера)
+    if (!silhouette) {
+      ctx.fillStyle = hullSide;
+      ctx.beginPath();
+      ctx.moveTo(w / 2 - bowLen, 0);
+      ctx.quadraticCurveTo(w / 2 + 8, 6, w / 2 - 4, 10);
+      ctx.quadraticCurveTo(w / 2 - 12, 8, w / 2 - bowLen, 2);
+      ctx.closePath();
+      ctx.fill();
+    }
 
     // Более тёмный низ борта (для объёма)
     ctx.fillStyle = hullSide;
     ctx.fillRect(-w / 2, -hullH * 0.35, w - bowLen * 0.3, hullH * 0.35);
 
-    // Тонкая белая ватерлиния (только в цветном режиме)
+    // Тонка біла ватерлінія
     if (!silhouette) {
       ctx.strokeStyle = "rgba(255,255,255,0.35)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(-w / 2, 0);
-      ctx.lineTo(w / 2 - 2, 0);
+      ctx.lineTo(w / 2 - 4, 0);
       ctx.stroke();
     }
 
-    // Палубный настил (тёмная линия сверху корпуса)
+    // Палубний настил (темна лінія зверху корпусу)
     ctx.fillStyle = deckColor;
-    ctx.fillRect(-w / 2, -hullH - 1, w - bowLen * 0.3, 2);
+    ctx.fillRect(-w / 2, -hullH - 1, w - bowLen + 2, 2);
 
     // ============ ПАЛУБНОЕ ОБОРУДОВАНИЕ (трубопроводы, манифолд) ============
     // Продольный трубопровод по центру палубы (характерная черта танкера)
