@@ -576,17 +576,17 @@ export default function App() {
     // Основной цвет — тёмно-красно-бурый (типичный сурик у танкеров)
     // В режиме силуэта — всё чёрное
     const SIL = "#000";
-    const hullTop = silhouette ? SIL : "#7a2214";
-    const hullSide = silhouette ? SIL : "#4a1608";
-    const deckColor = silhouette ? SIL : "#2a1408";
-    const pipeColor = silhouette ? SIL : "#8a8578";
-    const manifoldColor = silhouette ? SIL : "#a0998a";
-    const valveColor = silhouette ? SIL : "#c8c0b0";
-    const superstructureColor = silhouette ? SIL : "#d8d4c8";
-    const superstructureLight = silhouette ? SIL : "#e8e4d8";
-    const windowColor = silhouette ? SIL : "#1a1a1a";
-    const bridgeWindowColor = silhouette ? SIL : "#1a2028";
-    const funnelCapColor = silhouette ? SIL : "#1a1a1a";
+    const hullTop = silhouette ? SIL : "#4a1510";
+    const hullSide = silhouette ? SIL : "#2e0e06";
+    const deckColor = silhouette ? SIL : "#1a0c06";
+    const pipeColor = silhouette ? SIL : "#555048";
+    const manifoldColor = silhouette ? SIL : "#605850";
+    const valveColor = silhouette ? SIL : "#787068";
+    const superstructureColor = silhouette ? SIL : "#807870";
+    const superstructureLight = silhouette ? SIL : "#908880";
+    const windowColor = silhouette ? SIL : "#0a0a0a";
+    const bridgeWindowColor = silhouette ? SIL : "#0a1018";
+    const funnelCapColor = silhouette ? SIL : "#0a0a0a";
 
     // Верхняя палуба (плоская, идёт до надстройки)
     ctx.fillStyle = hullTop;
@@ -682,21 +682,6 @@ export default function App() {
     ctx.fillStyle = funnelCapColor;
     ctx.fillRect(funnelX - 1, -hullH - supH - bridgeH - funnelH + 3, funnelW + 2, 2);
 
-    // ============ РОССИЙСКИЙ ФЛАГ НА ТРУБЕ ============
-    // Три горизонтальные полосы: белый, синий, красный
-    if (!silhouette) {
-      const flagX = funnelX + 2;
-      const flagY = -hullH - supH - bridgeH - funnelH + 8;
-      const flagW = funnelW - 4;
-      const stripeH = 3;
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(flagX, flagY, flagW, stripeH);
-      ctx.fillStyle = "#0033a0";
-      ctx.fillRect(flagX, flagY + stripeH, flagW, stripeH);
-      ctx.fillStyle = "#d52b1e";
-      ctx.fillRect(flagX, flagY + stripeH * 2, flagW, stripeH);
-    }
-
     // ============ МАЧТА С ФЛАГОМ ============
     // Кормовой флагшток с российским флагом (маленький развевающийся флаг)
     const mastX = supX + supW - 6;
@@ -724,9 +709,9 @@ export default function App() {
       ctx.closePath();
       ctx.fill();
     };
-    drawStripe("#ffffff", 0, -1, bigFlagH / 3, bigFlagH / 3);
-    drawStripe("#0033a0", bigFlagH / 3, bigFlagH / 3, (bigFlagH * 2) / 3 + 1, (bigFlagH * 2) / 3);
-    drawStripe("#d52b1e", (bigFlagH * 2) / 3, (bigFlagH * 2) / 3 + 1, bigFlagH + 2, bigFlagH);
+    drawStripe("#c0c0c0", 0, -1, bigFlagH / 3, bigFlagH / 3);
+    drawStripe("#002880", bigFlagH / 3, bigFlagH / 3, (bigFlagH * 2) / 3 + 1, (bigFlagH * 2) / 3);
+    drawStripe("#b02018", (bigFlagH * 2) / 3, (bigFlagH * 2) / 3 + 1, bigFlagH + 2, bigFlagH);
 
     // Носовой флагшток
     const bowMastX = w / 2 - bowLen - 6;
