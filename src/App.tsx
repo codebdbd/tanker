@@ -409,6 +409,17 @@ export default function App() {
 
     drawScene(ctx, now);
 
+    // Віньєтка — затемнення по краях окала перископа
+    const vigCx = VIEW_W / 2;
+    const vigCy = VIEW_H / 2;
+    const vigR = Math.max(VIEW_W, VIEW_H) * 0.55;
+    const vigGrad = ctx.createRadialGradient(vigCx, vigCy, vigR * 0.35, vigCx, vigCy, vigR);
+    vigGrad.addColorStop(0, "rgba(0,0,0,0)");
+    vigGrad.addColorStop(0.7, "rgba(0,0,0,0)");
+    vigGrad.addColorStop(1, "rgba(0,0,0,0.7)");
+    ctx.fillStyle = vigGrad;
+    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+
     ctx.restore();
 
     // Вертикальные разделители
