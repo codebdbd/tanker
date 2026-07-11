@@ -78,6 +78,17 @@ export default function App() {
   const lastTimeRef = useRef<number>(0);
   const shakeRef = useRef<number>(0);
 
+  // Статичні зірки — генеруємо один раз
+  const starsRef = useRef(
+    Array.from({ length: 80 }, () => ({
+      x: Math.random() * VIEW_W,
+      y: Math.random() * HORIZON_Y * 0.85,
+      r: 0.4 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.5 + Math.random() * 2,
+    }))
+  );
+
   // Приціл — індекс однієї з 8 фіксованих позицій (0..7).
   // Стартуємо приблизно по центру (індекс 3 або 4).
   const aimIndexRef = useRef<number>(Math.floor(TRAJECTORIES / 2));
@@ -437,6 +448,16 @@ export default function App() {
     skyGrad.addColorStop(1, "#2a4560");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, VIEW_W, HORIZON_Y);
+
+    // Зірки
+    const t = now / 1000;
+    for (const s of starsRef.current) {
+      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.phase));
+      ctx.fillStyle = `rgba(220,230,255,${alpha})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     const seaGrad = ctx.createLinearGradient(0, HORIZON_Y, 0, VIEW_H);
     seaGrad.addColorStop(0, "#1a2a35");
