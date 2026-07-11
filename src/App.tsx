@@ -974,7 +974,7 @@ export default function App() {
             <PeriscopeGauge aimRef={aimRef} />
           </div>
 
-          <div className="mt-2 md:mt-4 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-3">
+          <div className="mt-2 md:mt-4 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-3 px-2">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 w-full md:w-auto">
               <button
                 onClick={reset}
