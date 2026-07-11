@@ -847,39 +847,58 @@ export default function App() {
   function drawCrosshair(ctx: CanvasRenderingContext2D, x: number) {
     ctx.save();
 
-    const col = "rgba(0,0,0,0.4)";
-    const colBright = "rgba(0,0,0,0.7)";
+    // ===== КРЕСТ ПРИЦІЛА (зелений, як на нічному перископі) =====
+    const green = "rgba(180,255,200,0.85)";
+    const greenDim = "rgba(180,255,200,0.4)";
 
-    // ===== КРЕСТ ПРИЦІЛА (на весь екран) =====
-    ctx.strokeStyle = colBright;
-    ctx.lineWidth = 1.5;
+    // Свічення навколо прицілу
+    ctx.shadowColor = "rgba(80,255,120,0.5)";
+    ctx.shadowBlur = 8;
+
+    // Вертикальна лінія
+    ctx.strokeStyle = green;
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.moveTo(x, 20);
-    ctx.lineTo(x, VIEW_H - 20);
-    ctx.moveTo(20, HORIZON_Y);
-    ctx.lineTo(VIEW_W - 20, HORIZON_Y);
+    ctx.moveTo(x, HORIZON_Y - 50);
+    ctx.lineTo(x, HORIZON_Y + 50);
     ctx.stroke();
 
-    // Окружність прицілу
-    ctx.lineWidth = 1.5;
+    // Горизонтальна лінія
+    ctx.beginPath();
+    ctx.moveTo(x - 45, HORIZON_Y);
+    ctx.lineTo(x + 45, HORIZON_Y);
+    ctx.stroke();
+
+    // Окружність
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.arc(x, HORIZON_Y, 14, 0, Math.PI * 2);
     ctx.stroke();
 
-    // Точка в центрі
-    ctx.fillStyle = colBright;
-    ctx.beginPath();
-    ctx.arc(x, HORIZON_Y, 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
+    ctx.shadowBlur = 0;
 
-    // ===== ШКАЛА ЗЛІВА (вертикальна, з цифрами 50, 100) =====
+    // Маленькі делення по боках
+    ctx.strokeStyle = greenDim;
+    ctx.lineWidth = 0.8;
+    for (let i = 1; i <= 3; i++) {
+      const d = i * 25;
+      ctx.beginPath();
+      ctx.moveTo(x - d, HORIZON_Y - 5);
+      ctx.lineTo(x - d, HORIZON_Y + 5);
+      ctx.moveTo(x + d, HORIZON_Y - 5);
+      ctx.lineTo(x + d, HORIZON_Y + 5);
+      ctx.stroke();
+    }
+
+    // ===== ШКАЛА ЗЛІВА (чорна) =====
     const scaleY = VIEW_H / 2;
     const scaleLeftX = 55;
     const vTickSpacing = 22;
 
+    const colBlack = "rgba(0,0,0,0.5)";
+
     // Основна вертикальна лінія
-    ctx.strokeStyle = colBright;
+    ctx.strokeStyle = colBlack;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(scaleLeftX, scaleY - 110);
@@ -897,7 +916,7 @@ export default function App() {
       ctx.lineTo(scaleLeftX + tickW, ty);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = colBright;
+        ctx.fillStyle = colBlack;
         ctx.font = "9px 'Share Tech Mono',monospace";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
@@ -915,7 +934,7 @@ export default function App() {
       ctx.lineTo(scaleLeftX + tickW, ty);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = colBright;
+        ctx.fillStyle = colBlack;
         ctx.font = "9px 'Share Tech Mono',monospace";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
@@ -929,7 +948,7 @@ export default function App() {
     const hTickSpacing = 20;
 
     // Основна горизонтальна лінія
-    ctx.strokeStyle = colBright;
+    ctx.strokeStyle = colBlack;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(scaleX - 160, scaleTopY);
@@ -947,7 +966,7 @@ export default function App() {
       ctx.lineTo(tx, scaleTopY + tickH);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = colBright;
+        ctx.fillStyle = colBlack;
         ctx.font = "8px 'Share Tech Mono',monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
@@ -965,7 +984,7 @@ export default function App() {
       ctx.lineTo(tx, scaleTopY + tickH);
       ctx.stroke();
       if (isMajor) {
-        ctx.fillStyle = colBright;
+        ctx.fillStyle = colBlack;
         ctx.font = "8px 'Share Tech Mono',monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
