@@ -172,16 +172,22 @@ export default function App() {
   function playClick() {
     const ctx = getAudio();
     if (ctx.state === "suspended") ctx.resume();
-    const o = ctx.createOscillator();
+    // Тихий треск — короткий шумовий імпульс
+    const duration = 0.02;
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 8);
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
     const g = ctx.createGain();
-    o.type = "square";
-    o.frequency.setValueAtTime(800, ctx.currentTime);
-    o.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.03);
-    g.gain.setValueAtTime(0.04, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-    o.connect(g).connect(ctx.destination);
-    o.start();
-    o.stop(ctx.currentTime + 0.05);
+    g.gain.value = 0.015;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "highpass";
+    filter.frequency.value = 2000;
+    src.connect(filter).connect(g).connect(ctx.destination);
+    src.start();
   }
   function playMiss() {
     const ctx = getAudio();
